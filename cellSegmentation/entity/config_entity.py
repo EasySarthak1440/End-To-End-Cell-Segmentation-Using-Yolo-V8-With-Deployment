@@ -42,16 +42,16 @@ class DataValidationConfig:
 
 
 
-# @dataclass
-# class ModelTrainerConfig:
-#     model_trainer_dir: str = os.path.join(
-#         training_pipeline_config.artifacts_dir, MODEL_TRAINER_DIR_NAME
-#     )
+@dataclass
+class ModelTrainerConfig:
+    model_trainer_dir: str = os.path.join(
+        training_pipeline_config.artifacts_dir, MODEL_TRAINER_DIR_NAME
+    )
 
-#     weight_name = MODEL_TRAINER_PRETRAINED_WEIGHT_NAME
+    weight_name = MODEL_TRAINER_PRETRAINED_WEIGHT_NAME
 
-#     no_epochs = MODEL_TRAINER_NO_EPOCHS
+    no_epochs = MODEL_TRAINER_NO_EPOCHS
 
-#     batch_size = MODEL_TRAINER_BATCH_SIZE
+    batch_size = MODEL_TRAINER_BATCH_SIZE
 
 
