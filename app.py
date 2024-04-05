@@ -33,6 +33,7 @@ def home():
 
 @app.route("/predict", methods=['POST','GET'])
 @cross_origin()
+
 def predictRoute():
     try:
         image = request.json['image']
@@ -40,20 +41,63 @@ def predictRoute():
 
         os.system("yolo task=segment mode=predict model=artifacts/model_trainer/best.pt conf=0.25 source=data/inputImage.jpg save=true")
 
-        opencodedbase64 = encodeImageIntoBase64("runs/segment/predict/inputImage.jpg")
+        opencodedbase64 = encodeImageIntoBase64("runs/segment/predict7/inputImage.jpg")
         result = {"image": opencodedbase64.decode('utf-8')}
+
+        # Find the latest output image file in the runs/segment directory
+        output_image_path = findLatestOutputImage("runs/segment/")
+
+        # Return the path of the latest output image
+        result["output_image_path"] = output_image_path
+
         os.system("rm -rf runs")
+
+        return jsonify(result)
+
+    except KeyError:
+        return Response("Key value error: Incorrect key passed", status=400)
 
     except ValueError as val:
         print(val)
-        return Response("Value not found inside  json data")
-    except KeyError:
-        return Response("Key value error incorrect key passed")
+        return Response("Value not found inside JSON data", status=400)
+
+    except FileNotFoundError as e:
+        print(e)
+        return Response("No directories found in runs/segment", status=404)
+
     except Exception as e:
         print(e)
-        result = "Invalid input"
+        return Response("Internal Server Error", status=500)
 
-    return jsonify(result)
+
+def findLatestOutputImage(directory):
+    try:
+        # Get a list of all directories (predict folders) in the specified directory
+        predict_folders = [name for name in os.listdir(directory) if os.path.isdir(os.path.join(directory, name))]
+
+        if not predict_folders:
+            raise FileNotFoundError("No directories found in {}".format(directory))
+
+        # Sort the directories by name (which should be predict1, predict2, ...)
+        predict_folders.sort()
+
+        # Find the latest predict folder and extract the number
+        latest_predict_folder = predict_folders[-1]
+        latest_predict_number = int(latest_predict_folder.split("predict")[-1])
+
+        # Increment the predict number
+        next_predict_number = latest_predict_number + 1
+
+        # Construct the file path with the incremented predict number
+        output_image_path = os.path.join(directory, f"predict{next_predict_number}", "inputImage.jpg")
+
+        return output_image_path
+
+    except Exception as e:
+        print(e)
+        raise  # Re-raise any other exceptions to handle them in the calling function
+
+    
 
 
 
