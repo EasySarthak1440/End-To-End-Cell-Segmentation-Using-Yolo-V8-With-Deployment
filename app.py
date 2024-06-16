@@ -41,7 +41,7 @@ def predictRoute():
 
         os.system("yolo task=segment mode=predict model=artifacts/model_trainer/best.pt conf=0.25 source=data/inputImage.jpg save=true")
 
-        opencodedbase64 = encodeImageIntoBase64("runs/segment/predict7/inputImage.jpg")
+        opencodedbase64 = encodeImageIntoBase64("runs/segment/predict8/inputImage.jpg")
         result = {"image": opencodedbase64.decode('utf-8')}
 
         # Find the latest output image file in the runs/segment directory
