@@ -4,5 +4,5 @@ notebook==7.0.0a7
 gdown
 flask-cors
 flask
-ultralytics==8.0.28
+ultralytics==8.0.112
 -e .
