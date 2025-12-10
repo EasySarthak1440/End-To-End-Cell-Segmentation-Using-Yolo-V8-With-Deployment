@@ -1,140 +1,241 @@
-🔬 End-To-End Cell Segmentation Using YOLOv8 With Deployment
 
-An end-to-end deep learning project for cell detection and segmentation using YOLOv8 instance segmentation, built and deployed as a complete pipeline.
 
-This system detects multiple cells from microscopic images, draws bounding boxes and segmentation masks, and displays the confidence score for each detected cell.
+---
 
-📌 Project Overview
+```markdown
+# End-To-End Cell Segmentation Using YOLOv8 With Deployment
 
-This project uses the YOLOv8 segmentation model to:
+A complete end-to-end computer vision project for **cell instance segmentation** using **YOLOv8**, including training pipelines, validation, prediction, and deployment-ready structure.
 
-• Detect individual cells in microscopic images
-• Draw bounding boxes around detected cells
-• Generate segmentation masks
-• Show confidence scores in real time
-• Deploy the trained model via a web interface
+---
 
-With more training data and longer training time, the accuracy and detection quality significantly improve.
+## 🔍 Project Overview
 
-🚀 Features
+This project performs **cell segmentation from microscopy images** using the YOLOv8 instance segmentation model.  
+It includes a structured MLOps-style pipeline for data ingestion, validation, model training, and prediction, along with a Streamlit-based user interface and Docker deployment support.
 
-• End-to-end training and deployment pipeline
-• YOLOv8 instance segmentation
-• Custom dataset training
-• Real-time image inference
-• Web application for prediction
-• Docker support for deployment
-• Modular project structure
+The system is designed to be modular, scalable, and production-ready.
 
-🛠️ Tech Stack
+---
 
-Python
-YOLOv8 (Ultralytics)
-OpenCV
-PyTorch
-Streamlit / Flask (for UI)
-Docker
-HTML / CSS
+## 🚀 Features
 
-📁 Project Structure
+- Cell **instance segmentation** using YOLOv8
+- Modular MLOps-style pipeline architecture
+- Data ingestion and validation modules
+- Automated training pipeline
+- Inference pipeline for new images
+- Streamlit web interface
+- Docker-ready deployment
+- Structured logging and exception handling
 
-This is how your repository is structured:
+---
 
-.github/workflows
-cellSegmentation/
-components/
-├── data_ingestion.py
-├── data_validation.py
-├── model_trainer.py
+## 🛠️ Tech Stack
 
-constant/
-training_pipeline/
-entity/
-logger/
-pipeline/
-utils/
-data/
-research/
-templates/
+- **Language:** Python 3.10+
+- **Frameworks/Libraries:**  
+  - PyTorch  
+  - Ultralytics YOLOv8  
+  - OpenCV  
+  - NumPy  
+  - Streamlit  
+- **Tools:** Docker, Git, VS Code
 
-Dockerfile
-app.py
-requirements.txt
-setup.py
-template.py
-README.md
+---
 
-📷 Sample Output
+## 📁 Project Structure
 
-The model detects cells and displays:
+```
 
-• Red bounding boxes
-• Label as cell
-• Confidence scores
-• Segmentation masks
+End-To-End-Cell-Segmentation-Using-Yolo-V8-With-Deployment/
+│
+├── app.py
+├── Dockerfile
+├── README.md
+├── requirements.txt
+├── setup.py
+├── template.py
+│
+├── artifacts/
+│   └── model_trainer/
+│       └── best.pt
+│
+├── cellSegmentation/
+│   ├── components/
+│   │   ├── data_ingestion.py
+│   │   ├── data_validation.py
+│   │   └── model_trainer.py
+│   │
+│   ├── constant/
+│   │   └── training_pipeline/
+│   │       └── **init**.py
+│   │
+│   ├── entity/
+│   │   ├── artifacts_entity.py
+│   │   └── config_entity.py
+│   │
+│   ├── exception/
+│   │   └── **init**.py
+│   │
+│   ├── logger/
+│   │   └── **init**.py
+│   │
+│   ├── pipeline/
+│   │   ├── training_pipeline.py
+│   │   └── **init**.py
+│   │
+│   └── utils/
+│       ├── main_utils.py
+│       └── **init**.py
+│
+├── data/
+│   ├── cell_data.zip
+│   └── inputImage.jpg
+│
+├── research/
+│   ├── trials.ipynb
+│   ├── trials.py
+│   └── yolov8_instance_segmentation_on_custom_dataset.ipynb
+│
+├── runs/
+│   └── segment/
+│       └── predict*/
+│            └── inputImage.jpg
+│
+└── templates/
+└── index.html
 
-Note: The more training data you use, the better the model performance.
+````
 
-⚙️ Installation
+---
 
-Clone the repository and move into the project folder.
+## ⚙️ Installation & Setup
 
-Create and activate a virtual environment.
+### 1. Clone the Repository
+```bash
+git clone https://github.com/your-username/End-To-End-Cell-Segmentation-Using-Yolo-V8-With-Deployment.git
+cd End-To-End-Cell-Segmentation-Using-Yolo-V8-With-Deployment
+````
 
-Install required dependencies using requirements.txt:
+### 2. Create Virtual Environment
 
+```bash
+python -m venv venv
+```
+
+Activate:
+
+**Windows:**
+
+```bash
+venv\Scripts\activate
+```
+
+**Linux/Mac:**
+
+```bash
+source venv/bin/activate
+```
+
+### 3. Install Dependencies
+
+```bash
 pip install -r requirements.txt
+```
 
-▶️ How to Run the App
+---
 
-Start the application locally:
+## ▶️ Running the Application
 
-python app.py
+### Run Streamlit App
 
-Or if using Streamlit:
-
+```bash
 streamlit run app.py
+```
 
-Open the browser at:
+Then open in browser:
 
+```
 http://localhost:8501
+```
 
-🧪 Training the Model
+---
 
-To train the YOLOv8 model:
+## 🧠 Training the Model
 
-Add your custom dataset in the data/ directory
+You can start the full training pipeline using:
 
-Configure parameters inside the training pipeline
+```bash
+python cellSegmentation/pipeline/training_pipeline.py
+```
 
-Run the training script
+This will:
 
-Trained weights will be saved inside the runs/segment/ folder
+* Ingest data
+* Validate datasets
+* Train YOLOv8 model
+* Save weights to:
 
-Training on more data will increase model accuracy.
+```
+artifacts/model_trainer/best.pt
+```
 
-🐳 Docker Deployment
+---
 
-Build the Docker image:
+## 🔮 Running Predictions
 
-docker build -t cell-segmentation-app .
+To run predictions on a new image:
 
-Run the container:
+```bash
+python app.py
+```
 
-docker run -p 5000:5000 cell-segmentation-app
+Or use the Streamlit UI to upload:
 
-📌 Future Enhancements
+```
+data/inputImage.jpg
+```
 
-• Improve model accuracy with larger datasets
-• Support live camera feed for detection
-• Add batch image prediction
-• Cloud deployment support
+Predicted results are stored in:
 
-👨‍💻 Author
+```
+runs/segment/predict*/
+```
 
-Sarthak Kelkar
-GitHub: https://github.com/EasySarthak1440
+---
 
-📜 License
+## 🐳 Docker Deployment
 
-This project is licensed under the MIT License.
+### Build Docker Image
+
+```bash
+docker build -t cell-segmentation-yolov8 .
+```
+
+### Run Docker Container
+
+```bash
+docker run -p 8501:8501 cell-segmentation-yolov8
+```
+
+---
+
+## 📈 Future Improvements
+
+* Add model versioning
+* Improve segmentation mask post-processing
+* Add batch image upload feature
+* Add model evaluation dashboards
+
+---
+
+## 👨‍💻 Author
+
+**Sarthak Kelkar**
+AI Engineer
+
+
+
+Just tell me: **"make downloadable file"**
+```
