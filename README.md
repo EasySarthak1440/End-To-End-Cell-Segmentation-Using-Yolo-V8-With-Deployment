@@ -207,4 +207,3 @@ MIT License
 ```
 
 
-Just tell me: **"make it downloadable"**
